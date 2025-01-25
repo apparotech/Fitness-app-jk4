@@ -57,6 +57,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.8"
+  dots_indicator:
+    dependency: "direct main"
+    description:
+      name: dots_indicator
+      sha256: "58b6a365744aa62aa1b70c4ea29e5106fbe064f5edaf7e9652e9b856edbfd9bb"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.0.0"
   fake_async:
     dependency: transitive
     description:
@@ -168,6 +176,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.9.0"
+  percent_indicator:
+    dependency: "direct main"
+    description:
+      name: percent_indicator
+      sha256: "0d77d5c6fa9b7f60202cedf748b568ba9ba38d3f30405d6ceae4da76f5185462"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "4.2.4"
   plugin_platform_interface:
     dependency: transitive
     description:
