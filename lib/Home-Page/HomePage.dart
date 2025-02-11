@@ -1,3 +1,4 @@
+import 'package:dell_project/home/widget/home_content.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,12 +6,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-          
-      ),
+    return HomeContent(
+
 
     );
 

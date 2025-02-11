@@ -7,9 +7,9 @@ class FitnessTextField extends StatefulWidget {
   final String placeholder;
   final String errorText;
   final bool obscureText;
-  final bool isError;
+ // final bool isError;
 
-  final TextEditingController controller;
+ // final TextEditingController controller;
   final VoidCallback onTextChanged;
   final TextInputAction textInputAction;
   final TextInputType? keyboardType;
@@ -18,8 +18,8 @@ class FitnessTextField extends StatefulWidget {
     required this.title,
     required this.placeholder,
     this.obscureText = false,
-    this.isError = false,
-    required this.controller,
+   //this.isError = false,
+   /// required this.controller,
     required this.onTextChanged,
     required this.errorText,
     this.textInputAction = TextInputAction.done,
@@ -58,7 +58,7 @@ class _FitnessTextFieldState extends State<FitnessTextField>  {
     );
 
     stateObscureText = widget.obscureText;
-    stateIsError = widget.isError;
+    //stateIsError = widget.isError;
 
   }
 
@@ -98,8 +98,6 @@ class _FitnessTextFieldState extends State<FitnessTextField>  {
 
     } else if (stateIsError) {
       return ColorConstants.errorColor;
-    } else if (widget.controller.text.isNotEmpty) {
-      return ColorConstants.textBlack;
     }
     return ColorConstants.grey;
   }
@@ -125,7 +123,7 @@ class _FitnessTextFieldState extends State<FitnessTextField>  {
   Widget _createTextField() {
     return TextField(
       focusNode: focusNode,
-      controller: widget.controller,
+     // controller: widget.controller,
       obscureText: stateObscureText,
       textInputAction: widget.textInputAction,
       keyboardType: widget.keyboardType,

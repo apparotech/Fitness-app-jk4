@@ -1,4 +1,5 @@
 import 'package:dell_project/common_widgets/FitnessLoading.dart';
+import 'package:dell_project/common_widgets/fitness_button.dart';
 import 'package:dell_project/common_widgets/fitness_text_field.dart';
 import 'package:dell_project/core/const/color_constants.dart';
 import 'package:dell_project/core/const/text_constants.dart';
@@ -7,6 +8,7 @@ import 'package:dell_project/sign_up/bloc/signup_event.dart';
 import 'package:dell_project/sign_up/bloc/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gestures/gestures.dart';
 class SignUpContent extends StatelessWidget {
   const SignUpContent({super.key});
 
@@ -18,7 +20,7 @@ class SignUpContent extends StatelessWidget {
 
       },
       child: Container(
-        width: double.infinity,
+        width: double.infinity  ,
         height: double.infinity,
         color: ColorConstants.white,
         child: Stack(
@@ -50,9 +52,12 @@ class SignUpContent extends StatelessWidget {
             children: [
               const SizedBox(height: 20),
             _createTitle(),
-              
               _createForm(context),
               const SizedBox(height: 40),
+              _createSignUpButton(context),
+              const SizedBox(height: 40),
+              _createHaveAccountText(context),
+              const SizedBox(height: 30),
               
             ],
           ),
@@ -89,7 +94,7 @@ class SignUpContent extends StatelessWidget {
           FitnessTextField(
             title: TextConstants.username,
             placeholder: TextConstants.userNamePlaceholder,
-            controller: bloc.userNameController,
+            //controller: bloc.userNameController,
             textInputAction: TextInputAction.next,
             errorText: TextConstants.usernameErrorText,
             //isError: state is ShowErrorState ? !Vali,
@@ -105,7 +110,7 @@ class SignUpContent extends StatelessWidget {
                placeholder: TextConstants.emailPlaceholder,
                textInputAction: TextInputAction.next,
                keyboardType: TextInputType.emailAddress,
-               controller: bloc.emailController,
+               //controller: bloc.emailController,
                errorText: TextConstants.emailErrorText,
                  onTextChanged: () {
                    bloc.add(OnTextChangedEvent());
@@ -120,7 +125,7 @@ class SignUpContent extends StatelessWidget {
                obscureText: true,
               // isError: state is ShowErrorState ? !ValidationService.password(bloc.passwordController.text) : false,
                textInputAction: TextInputAction.next,
-               controller: bloc.passwordController,
+              // controller: bloc.passwordController,
                errorText: TextConstants.passwordErrorText,
                onTextChanged: () {
                  bloc.add(OnTextChangedEvent());
@@ -133,7 +138,7 @@ class SignUpContent extends StatelessWidget {
                placeholder: TextConstants.confirmPasswordPlaceholder,
                obscureText: true,
               // isError: state is ShowErrorState ? !ValidationService.confirmPassword(bloc.passwordController.text, bloc.confirmPasswordController.text) : false,
-               controller: bloc.confirmPasswordController,
+               //controller: bloc.confirmPasswordController,
                errorText: TextConstants.confirmPasswordErrorText,
                onTextChanged: () {
                  bloc.add(OnTextChangedEvent());
@@ -143,6 +148,54 @@ class SignUpContent extends StatelessWidget {
          );
          }
          );
+  }
+
+  Widget  _createSignUpButton(BuildContext context) {
+    final bloc = BlocProvider.of<SignUpBloc>(context);
+    return Padding(
+
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: BlocBuilder <SignUpBloc, SignUpState>(
+        buildWhen: (_ ,currState) => currState is SignUpButtonEnableChangedState,
+          builder:(context, state) {
+         return FitnessButton(
+          title: TextConstants.signUp,
+           isEnabled: state is  SignUpButtonEnableChangedState ? state.isEnabled : false,
+           onTap: () {
+             FocusScope.of(context).unfocus();
+             bloc.add(SignUpTappedEvent());
+           },
+         );
+          }),
+    );
+  }
+
+  Widget _createHaveAccountText(BuildContext context) {
+
+    final bloc = BlocProvider.of<SignUpBloc>(context);
+    return RichText(
+      text: TextSpan(
+        text: TextConstants.alreadyHaveAccount,
+        style: TextStyle(
+          color: ColorConstants.textBlack,
+          fontSize: 18,
+        ),
+        children: [
+          TextSpan(
+            text: " ${TextConstants.signIn}",
+            style: TextStyle(
+              color: ColorConstants.primaryColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+            //recognizer: TapGestureRecognizer()
+            //  ..onTap = () {
+            //    bloc.add(SignInTappedEvent());
+            //  },
+          ),
+        ],
+      ),
+    );
   }
 
 
