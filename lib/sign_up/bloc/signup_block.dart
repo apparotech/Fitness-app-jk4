@@ -22,4 +22,13 @@ class SignUpBloc extends Bloc<SignupEvent, SignUpState> {
   }
 
 
+  bool checkIfSignUpButtonEnabled() {
+    return  userNameController.text.isNotEmpty &&
+        emailController.text.isNotEmpty &&
+        passwordController.text.isNotEmpty &&
+        confirmPasswordController.text.isNotEmpty;
+
+  }
+
+
 }

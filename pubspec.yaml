@@ -70,6 +70,7 @@ flutter:
     - assets/icons/home/
     - assets/icons/workouts/
     - assets/videos/workouts/
+    - assets/icons/social_networks/
 
   #   - images/a_dot_ham.jpeg
 

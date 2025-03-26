@@ -1,4 +1,6 @@
+import 'package:dell_project/change_password/change_password_page.dart';
 import 'package:dell_project/common_widgets/common_widget.dart';
+import 'package:dell_project/common_widgets/fitness_button.dart';
 import 'package:dell_project/common_widgets/settings_textfield.dart';
 import 'package:dell_project/core/const/color_constants.dart';
 import 'package:dell_project/core/const/text_constants.dart';
@@ -12,6 +14,17 @@ class EditAccountScreen extends StatefulWidget {
 }
 
 class _EditAccountScreenState extends State<EditAccountScreen> {
+
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  String? photoUrl;
+  bool isNameInvalid = false;
+  bool isEmailInvalid = false;
+  late String userName;
+  late String userEmail;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +77,91 @@ class _EditAccountScreenState extends State<EditAccountScreen> {
                   TextConstants.fullName,
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
+
+                SettingsContainer(
+                    child: SettingsTextField(
+                        controller: _nameController,
+                        placeHolder: TextConstants.fullNamePlaceholder
+                    )
+                ),
+
+                if(isNameInvalid)
+                Text(
+                  TextConstants.nameShouldContain2Char,
+                  style: TextStyle(
+                    color:  ColorConstants.errorColor
+                  ),
+                ),
+
+                Text(
+                  TextConstants.email,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+
+                SettingsContainer(
+                    child: SettingsTextField(
+                        controller: _emailController,
+                        placeHolder:  TextConstants.emailPlaceholder,
+                    )
+                ),
+                if(isEmailInvalid)
+                  Text(TextConstants.emailErrorText,
+                  style: TextStyle(
+                    color: ColorConstants.errorColor
+                  ),),
+
+                SizedBox(
+                  height: 15,
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChangePasswordPage()
+                        ),
+                    );
+
+                  },
+
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+
+                    children: [
+                      Text(
+                        TextConstants.changePassword,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: ColorConstants.primaryColor,
+                          fontSize: 18
+                        ),
+
+                        
+                      ),
+
+                      SizedBox(width: 10,),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: ColorConstants.primaryColor,
+                      )
+                    ],
+                  ),
+                ),
+
+                Spacer(),
+                FitnessButton(
+                    title: TextConstants.save,
+                    isEnabled: true,
+                    onTap: () {
+
+                    }
+
+                )
+
+
+
 
 
 

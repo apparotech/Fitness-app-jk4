@@ -1,23 +1,55 @@
+import 'package:dell_project/Home-Page/HomePage.dart';
 import 'package:dell_project/core/const/color_constants.dart';
 import 'package:dell_project/core/const/path_constants.dart';
 import 'package:dell_project/core/const/text_constants.dart';
+import 'package:dell_project/settings/settings_screen.dart';
+import 'package:dell_project/tab_bar/bloc/tab_bar_bloc.dart';
+import 'package:dell_project/tab_bar/bloc/tab_bar_event.dart';
+import 'package:dell_project/tab_bar/bloc/tab_bar_state.dart';
+import 'package:dell_project/workouts/page/workouts_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TabBarPage extends StatelessWidget {
-  const TabBarPage({super.key});
+  const TabBarPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return _createdBottomTabBar(context);
+    return BlocProvider<TabBarBloc>(
+
+        create: (BuildContext context) => TabBarBloc(),
+
+      child: BlocConsumer<TabBarBloc,TabBarState>(
+        listener:(context, state) {},
+        buildWhen: (_, currState) =>
+        currState is TabBarInitial || currState is TabBarItemSelectedState,
+          builder: (context, state) {
+            final bloc = BlocProvider.of<TabBarBloc>(context);
+            int currentIndex = (state is TabBarItemSelectedState) ? state.index : 0;
+            return Scaffold(
+              body: _createBody(context, bloc.currentIndex),
+              bottomNavigationBar: _createdBottomTabBar(context, currentIndex),
+            );
+          },
+
+      ),
+
+
+
+
+    );
   }
 
-  Widget _createdBottomTabBar(BuildContext context) {
+  Widget _createdBottomTabBar(BuildContext context, int currentIndex) {
+    final bloc = BlocProvider.of<TabBarBloc>(context);
       return BottomNavigationBar(
+        currentIndex: currentIndex,
         fixedColor: ColorConstants.primaryColor,
           items: [
             BottomNavigationBarItem(
                 icon: Image(
-                    image: AssetImage(PathConstants.home)
+                    image: AssetImage(PathConstants.home),
+                  color: bloc.currentIndex == 0 ? ColorConstants.primaryColor : null,
                 ),
               label: TextConstants.homeIcon,
             ),
@@ -25,6 +57,7 @@ class TabBarPage extends StatelessWidget {
             BottomNavigationBarItem(
                 icon: Image(
                     image: AssetImage(PathConstants.workouts),
+                  color: bloc.currentIndex == 1 ? ColorConstants.primaryColor : null,
                 ),
               label: TextConstants.workoutsIcon,
             ),
@@ -32,12 +65,26 @@ class TabBarPage extends StatelessWidget {
             BottomNavigationBarItem(
               icon: Image(
                 image: AssetImage(PathConstants.settings),
-                //color: bloc.currentIndex == 2 ? ColorConstants.primaryColor : null,
+                color: bloc.currentIndex == 2 ? ColorConstants.primaryColor : null,
               ),
               label: TextConstants.settingsIcon,
             ),
 
-          ]
+          ],
+        onTap: (index) {
+          bloc.add(TabBarItemTappedEvent(index: index));
+        },
       );
+  }
+
+  Widget _createBody(BuildContext context, int index) {
+
+    final children =[
+      HomePage(),
+      WorkoutsPage(),
+      SettingsScreen()
+    ];
+
+    return children[index];
   }
 }
